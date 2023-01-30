@@ -19,7 +19,7 @@ namespace Test.Server.Data
         {
         }
 
-
+        public DbSet<Make> Makes { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Menu> Menus { get; set; }

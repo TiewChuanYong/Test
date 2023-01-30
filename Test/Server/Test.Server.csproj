@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configurations\Entities\" />
+    <Folder Include="Microsoft\EntityFrameworkCore\Metadata\Builders\" />
   </ItemGroup>
 
 </Project>

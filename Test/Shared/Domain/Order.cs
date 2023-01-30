@@ -10,6 +10,7 @@ namespace Test.Shared.Domain
     {
         public int Price { get; set; }
         public Boolean Paid { get; set; }
+        public virtual Make Make { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Restaurant Restaurant { get; set; }
 
