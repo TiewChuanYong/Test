@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class OpeningHour : BaseDomainModel
+    public class OpeningHour : BaseDomainModel
     {
         public int FromHour { get; set; }
         public int FromMinute { get; set; }

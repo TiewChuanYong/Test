@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class Menu : BaseDomainModel
+    public class Menu : BaseDomainModel
     {
         public string Name { get; set; }
         public virtual Restaurant Restaurant { get; set; }
-
     }
 }

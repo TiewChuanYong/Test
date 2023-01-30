@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class MenuItem : BaseDomainModel
+    public class MenuItem : BaseDomainModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

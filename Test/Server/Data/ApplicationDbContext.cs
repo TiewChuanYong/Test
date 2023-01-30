@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Test.Server.Models;
+using Test.Shared.Domain;
 
 namespace Test.Server.Data
 {
@@ -17,5 +18,13 @@ namespace Test.Server.Data
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+
+        public DbSet<Restaurant> Restaurants { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
+
     }
 }

@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class Restaurant : BaseDomainModel
+    public class Restaurant : BaseDomainModel
     {
         public string Name { get; set; }
         public string Address { get; set; }
         public string ShortDescribtion { get; set; }
         public Boolean IsActive { get; set; }
-
-    }
+    }   
 }
+    

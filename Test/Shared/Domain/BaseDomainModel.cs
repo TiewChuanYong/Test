@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class BaseDomainModel
+    public abstract class BaseDomainModel
     {
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }

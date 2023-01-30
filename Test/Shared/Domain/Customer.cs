@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Test.Shared.Domain
 {
-    class Customer : BaseDomainModel
+    public class Customer : BaseDomainModel
     {
         public string Name { get; set; }
         public string Address { get; set; }
