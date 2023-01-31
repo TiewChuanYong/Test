@@ -107,7 +107,6 @@ namespace Test.Server.Controllers
 
             return NoContent();
         }
-
         private async Task<bool> RestaurantExists(int id)
         {
             var restaurant = await _unitOfWork.Restaurants.Get(q => q.Id == id);
