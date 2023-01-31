@@ -11,6 +11,7 @@ namespace Test.Server.IRepository
     {
         Task Save(HttpContext httpContext);
         IGenericRepository<Make> Makes { get; }
+        IGenericRepository<Menu> Menus { get; }
         IGenericRepository<Restaurant> Restaurants { get; }
         IGenericRepository<MenuItem> MenuItems { get; }
         IGenericRepository<Order> Orders { get; }

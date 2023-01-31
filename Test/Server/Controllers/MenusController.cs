@@ -13,51 +13,51 @@ namespace Test.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MenuItemsController : ControllerBase
+    public class MenusController : ControllerBase
     {
 
         //private readonly applicationdbcontext _context;
         private readonly IUnitOfWork _unitOfWork;
 
-        public MenuItemsController(IUnitOfWork unitOfWork)
+        public MenusController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/MenuItems
+        // GET: api/Menus
         [HttpGet]
-        public async Task<IActionResult> GetMenuItems()
+        public async Task<IActionResult> GetMenus()
         {
-            var menuItems = await _unitOfWork.MenuItems.GetAll(includes: q => q.Include(x => x.Menu));
-            return Ok(menuItems);
+            var menus = await _unitOfWork.Menus.GetAll(includes: q => q.Include(x => x.Restaurant));
+            return Ok(menus);
 
         }
 
-        // GET: api/MenuItems/5
+        // GET: api/Menus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MenuItem>> GetMenuItem(int id)
+        public async Task<ActionResult<Menu>> GetMenu(int id)
         {
-            var menuItem = await _unitOfWork.MenuItems.Get(q => q.Id == id);
+            var menu = await _unitOfWork.Menus.Get(q => q.Id == id);
 
-            if (menuItem == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return Ok(menuItem);
+            return Ok(menu);
         }
 
-        // PUT: api/MenuItems/5
+        // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMenuItem(int id, MenuItem menuItem)
+        public async Task<IActionResult> PutMenu(int id, Menu menu)
         {
-            if (id != menuItem.Id)
+            if (id != menu.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.MenuItems.Update(menuItem);
+            _unitOfWork.Menus.Update(menu);
 
             try
             {
@@ -66,7 +66,7 @@ namespace Test.Server.Controllers
 
             catch (DbUpdateConcurrencyException)
             {
-                if (!await MenuItemExists(id))
+                if (!await MenuExists(id))
                 {
                     return NotFound();
                 }
@@ -79,40 +79,40 @@ namespace Test.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/MenuItems
+        // POST: api/Menus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<MenuItem>> PostMenuItem(MenuItem menuItem)
+        public async Task<ActionResult<Menu>> PostMenu(Menu menu)
         {
-            await _unitOfWork.MenuItems.Insert(menuItem);
+            await _unitOfWork.Menus.Insert(menu);
             await _unitOfWork.Save(HttpContext);
 
 
-            return CreatedAtAction("GetMenuItem", new { id = menuItem.Id }, menuItem);
+            return CreatedAtAction("GetMenu", new { id = menu.Id }, menu);
         }
 
-        // DELETE: api/MenuItems/5
+        // DELETE: api/Menus/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMenuItem(int id)
+        public async Task<IActionResult> DeleteMenu(int id)
         {
-            var menuItem = await _unitOfWork.MenuItems.Get(q => q.Id == id);
+            var menu = await _unitOfWork.Menus.Get(q => q.Id == id);
 
-            if (menuItem == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.MenuItems.Delete(id);
+            await _unitOfWork.Menus.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
 
             return NoContent();
         }
 
-        private async Task<bool> MenuItemExists(int id)
+        private async Task<bool> MenuExists(int id)
         {
-            var menuItem = await _unitOfWork.MenuItems.Get(q => q.Id == id);
-            return menuItem != null;
+            var menu = await _unitOfWork.Menus.Get(q => q.Id == id);
+            return menu != null;
         }
     }
 }

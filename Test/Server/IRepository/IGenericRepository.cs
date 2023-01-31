@@ -22,7 +22,5 @@ namespace Test.Server.IRepository
         Task Delete(int id);
         void DeleteRange(IEnumerable<T> entities);
         void Update(T entity);
-        void Update(Restaurant restaurant);
-        Task Insert(Restaurant restaurant);
     }
 }

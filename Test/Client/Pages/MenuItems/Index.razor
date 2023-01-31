@@ -1,0 +1,67 @@
+﻿@page "/menuitems/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+<h3 class="card-title"> Menu Items </h3>
+
+@if (menuItems == null)
+{
+    <div class="alert alert-info">Loading menu items...</div>
+
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Menu</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var menuItem in menuItems)
+            {
+                <tr>
+                    <td>@menuItem.Name</td>
+                    <td>@menuItem.Description</td>
+                    <td>@menuItem.Price</td>
+                    <td>@menuItem.Menu.Name</td>
+                    <td>
+                        <a href="/menuItems/view/@menuItem.Id" class="btn btn-primary">
+                            <span class=" oi oi-book"></span>
+                        </a>
+                        <a href="/menuItems/edit/@menuItem.Id" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(menuItem.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<MenuItem> menuItems;
+
+    protected async override Task OnInitializedAsync()
+    {
+        menuItems = await _client.GetFromJsonAsync<List<MenuItem>>($"{Endpoints.MenuItemsEndpoint}");
+    }
+
+    async Task Delete(int menuItemId)
+    {
+        var menuItem = menuItems.First(q => q.Id == menuItemId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {menuItem.Id}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.MenuItemsEndpoint}/{menuItemId}");
+            await OnInitializedAsync();
+        }
+    }
+}

@@ -17,6 +17,7 @@ namespace Test.Server.Repository
     {
         private readonly ApplicationDbContext _context;
         private IGenericRepository<Make> _makes;
+        private IGenericRepository<Menu> _menus;
         private IGenericRepository<MenuItem> _menuitems;
         private IGenericRepository<Restaurant> _restaurants;
         private IGenericRepository<Order> _orders;
@@ -33,6 +34,8 @@ namespace Test.Server.Repository
 
         public IGenericRepository<Make> Makes
             => _makes ??= new GenericRepository<Make>(_context);
+        public IGenericRepository<Menu> Menus
+            => _menus ??= new GenericRepository<Menu>(_context);
         public IGenericRepository<MenuItem> MenuItems
             => _menuitems ??= new GenericRepository<MenuItem>(_context);
         public IGenericRepository<Restaurant> Restaurants
