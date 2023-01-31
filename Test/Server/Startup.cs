@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Test.Server.Data;
+using Test.Server.IRepository;
 using Test.Server.Models;
+using Test.Server.Repository;
 
 namespace Test.Server
 {
@@ -40,6 +42,8 @@ namespace Test.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
