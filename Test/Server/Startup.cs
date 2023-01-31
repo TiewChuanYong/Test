@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
 using Test.Server.Data;
+using Test.Server.IRepository;
 using Test.Server.Models;
+using Test.Server.Repository;
 
 namespace Test.Server
 {
@@ -43,6 +45,8 @@ namespace Test.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
