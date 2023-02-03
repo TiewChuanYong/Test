@@ -33,17 +33,36 @@
     </div>
 
     <div class="form-group">
-        <label>Menu: </label>
+        <label>Menu Menu: </label>
         <div>
-            <InputNumber @bind-Value="menuItem.Price" class="form-control"></InputNumber>
-            <ValidationMessage For="@(() => menuItem.Price)" />
+            <InputSelect @bind-Value="menuItem.MenuId" class="form-control">
+                <option value=""> -- Select Restaurant --</option>
+                @if (Menus != null)
+                {
+                    foreach (var menu in Menus)
+                    {
+                        <option value="@menu.Id">@menu.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => menuItem.MenuId)" />
         </div>
-
     </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Menu Item
+    </button>
 </EditForm>
 
 @code {
     MenuItem menuItem = new MenuItem();
+
+    private IList<Menu> Menus;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Menus = await _client.GetFromJsonAsync<List<Menu>>($"{Endpoints.MenusEndpoint}");
+    }
 
     private async Task CreateMenuItem()
     {

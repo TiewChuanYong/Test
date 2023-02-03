@@ -60,7 +60,7 @@ else
     async Task Delete(int menuId)
     {
         var menu = menus.First(q => q.Id == menuId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {menu.Id}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {menu.Name}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.MenusEndpoint}/{menuId}");

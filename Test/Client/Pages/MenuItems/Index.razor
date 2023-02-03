@@ -5,6 +5,13 @@
 
 <h3 class="card-title"> Menu Items </h3>
 
+<a href="/menuitems/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Menu Item
+</a>
+<br />
+<br />
+
 @if (menuItems == null)
 {
     <div class="alert alert-info">Loading menu items...</div>
@@ -57,7 +64,7 @@ else
     async Task Delete(int menuItemId)
     {
         var menuItem = menuItems.First(q => q.Id == menuItemId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {menuItem.Id}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {menuItem.Name}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.MenuItemsEndpoint}/{menuItemId}");

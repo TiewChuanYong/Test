@@ -19,7 +19,7 @@
     <div class="form-group">
         <label>Menu Restaurants: </label>
         <div>
-            <InputSelect @bind-Value="menu.Restaurant" class="form-control">
+            <InputSelect @bind-Value="menu.RestaurantId" class="form-control">
                 <option value=""> -- Select Restaurant --</option>
                 @if (Restaurants != null)
                 {
@@ -29,9 +29,13 @@
                     }
                 }
             </InputSelect>
-            <ValidationMessage For="@(() => menu.Restaurant)" />
+            <ValidationMessage For="@(() => menu.RestaurantId)" />
         </div>
     </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Menu
+    </button>
 </EditForm>
 
 @code {
@@ -39,15 +43,15 @@
 
     private IList<Restaurant> Restaurants;
 
+    protected async override Task OnInitializedAsync()
+    {
+        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
+    }
+
     private async Task CreateMenu()
     {
         await _client.PostAsJsonAsync(Endpoints.MenusEndpoint, menu);
         _navManager.NavigateTo("/menus/");
-    }
-
-    protected async override Task OnInitializedAsync()
-    {
-        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
     }
 
 }
