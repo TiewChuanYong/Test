@@ -9,7 +9,7 @@
     <ValidationSummary />
 
     <div class="form-group">
-        <label>Menu Name: </label>
+        <label>Menu Item Name: </label>
         <div>
             <InputText @bind-Value="menuItem.Name" class="form-control"></InputText>
             <ValidationMessage For="@(() => menuItem.Name)" />
@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group">
-        <label>Menu Description: </label>
+        <label>Menu Item Description: </label>
         <div>
             <InputText @bind-Value="menuItem.Description" class="form-control"></InputText>
             <ValidationMessage For="@(() => menuItem.Description)" />
@@ -25,7 +25,7 @@
     </div>
 
     <div class="form-group">
-        <label>Menu Price: </label>
+        <label>Menu Item Price: </label>
         <div>
             <InputNumber @bind-Value="menuItem.Price" class="form-control"></InputNumber>
             <ValidationMessage For="@(() => menuItem.Price)" />
@@ -33,7 +33,7 @@
     </div>
 
     <div class="form-group">
-        <label>Menu Menu: </label>
+        <label>Menu Item Menu: </label>
         <div>
             <InputSelect @bind-Value="menuItem.MenuId" class="form-control">
                 <option value=""> -- Select Restaurant --</option>

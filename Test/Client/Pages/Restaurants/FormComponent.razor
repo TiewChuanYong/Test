@@ -1,0 +1,61 @@
+﻿
+<EditForm Model="@restaurant" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Restaurant Name: </label>
+            <div>
+                <InputText @bind-Value="restaurant.Name" class="form-control"></InputText>
+                <ValidationMessage For="@(() => restaurant.Name)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Restaurant Address: </label>
+            <div>
+                <InputText @bind-Value="restaurant.Address" class="form-control"></InputText>
+                <ValidationMessage For="@(() => restaurant.Address)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Restaurant Short Describtion: </label>
+            <div>
+                <InputText @bind-Value="restaurant.ShortDescribtion" class="form-control"></InputText>
+                <ValidationMessage For="@(() => restaurant.ShortDescribtion)" />
+            </div>
+        </div>
+    </fieldset> 
+
+        <fieldset disabled="@Disabled">
+            <div class="form-group">
+                <label>Restaurant IsActive: </label>
+                <div>
+                    <InputCheckbox @bind-Value="restaurant.IsActive" class="form-control"></InputCheckbox>
+                    <ValidationMessage For="@(() => restaurant.IsActive)" />
+                </div>
+            </div>
+        </fieldset>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="restaurants" />
+</EditForm>
+
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Restaurant restaurant { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

@@ -1,0 +1,58 @@
+﻿@inject HttpClient _client
+
+<EditForm Model="@menu" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Name: </label>
+            <div>
+                <InputText @bind-Value="menu.Name" class="form-control"></InputText>
+                <ValidationMessage For="@(() => menu.Name)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Restaurants: </label>
+            <div>
+                <InputSelect @bind-Value="menu.RestaurantId" class="form-control">
+                    <option value=""> -- Select Restaurant --</option>
+                    @if (Restaurants != null)
+                    {
+                        foreach (var restaurant in Restaurants)
+                        {
+                            <option value="@restaurant.Id">@restaurant.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => menu.RestaurantId)" />
+            </div>
+        </div>
+    </fieldset>
+    
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="menus" />
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Menu menu { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Restaurant> Restaurants;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
+
+    }
+
+}

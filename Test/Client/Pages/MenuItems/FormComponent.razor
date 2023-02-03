@@ -1,0 +1,79 @@
+﻿@inject HttpClient _client
+
+
+<EditForm Model="@menuItem" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Item Name: </label>
+            <div>
+                <InputText @bind-Value="menuItem.Name" class="form-control"></InputText>
+                <ValidationMessage For="@(() => menuItem.Name)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Item Description: </label>
+            <div>
+                <InputText @bind-Value="menuItem.Description" class="form-control"></InputText>
+                <ValidationMessage For="@(() => menuItem.Description)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Item Price: </label>
+            <div>
+                <InputNumber @bind-Value="menuItem.Price" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => menuItem.Price)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Menu Item Menu: </label>
+            <div>
+                <InputSelect @bind-Value="menuItem.MenuId" class="form-control">
+                    <option value=""> -- Select Restaurant --</option>
+                    @if (Menus != null)
+                    {
+                        foreach (var menu in Menus)
+                        {
+                            <option value="@menu.Id">@menu.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => menuItem.MenuId)" />
+            </div>
+        </div>
+    </fieldset>
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="menuitems" />
+</EditForm>
+
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public MenuItem menuItem { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Menu> Menus;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Menus = await _client.GetFromJsonAsync<List<Menu>>($"{Endpoints.MenusEndpoint}");
+    }
+}
+
