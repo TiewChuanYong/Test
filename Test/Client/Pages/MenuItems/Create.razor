@@ -1,0 +1,54 @@
+﻿@page "/menuitems/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Create Menu</h3>
+
+<EditForm Model="@menuItem" OnValidSubmit="CreateMenuItem">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Menu Name: </label>
+        <div>
+            <InputText @bind-Value="menuItem.Name" class="form-control"></InputText>
+            <ValidationMessage For="@(() => menuItem.Name)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Menu Description: </label>
+        <div>
+            <InputText @bind-Value="menuItem.Description" class="form-control"></InputText>
+            <ValidationMessage For="@(() => menuItem.Description)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Menu Price: </label>
+        <div>
+            <InputNumber @bind-Value="menuItem.Price" class="form-control"></InputNumber>
+            <ValidationMessage For="@(() => menuItem.Price)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Menu: </label>
+        <div>
+            <InputNumber @bind-Value="menuItem.Price" class="form-control"></InputNumber>
+            <ValidationMessage For="@(() => menuItem.Price)" />
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+    MenuItem menuItem = new MenuItem();
+
+    private async Task CreateMenuItem()
+    {
+        await _client.PostAsJsonAsync(Endpoints.MenuItemsEndpoint, menuItem);
+        _navManager.NavigateTo("/menuitems/");
+    }
+
+}

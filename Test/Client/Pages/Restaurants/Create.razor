@@ -1,0 +1,54 @@
+﻿@page "/restaurants/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Create</h3>
+
+<EditForm Model="@restaurant" OnValidSubmit="CreateRestaurant">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Restaurant Name: </label>
+        <div>
+            <InputText @bind-Value="restaurant.Name" class="form-control"></InputText>
+            <ValidationMessage For="@(() => restaurant.Name)" />
+        </div>
+
+        <div class="form-group">
+            <label>Restaurant Address: </label>
+            <div>
+                <InputText @bind-Value="restaurant.Address" class="form-control"></InputText>
+                <ValidationMessage For="@(() => restaurant.Address)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Restaurant Short Describtion: </label>
+            <div>
+                <InputText @bind-Value="restaurant.ShortDescribtion" class="form-control"></InputText>
+                <ValidationMessage For="@(() => restaurant.ShortDescribtion)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Restaurant IsActive: </label>
+            <div>
+                <InputCheckbox @bind-Value="restaurant.IsActive" class="form-control"></InputCheckbox>
+                <ValidationMessage For="@(() => restaurant.IsActive)" />
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+    Restaurant restaurant = new Restaurant();
+
+    private async Task CreateRestaurant()
+    {
+        await _client.PostAsJsonAsync(Endpoints.RestaurantsEndpoint, restaurant);
+        _navManager.NavigateTo("/restaurants/");
+    }
+
+}
