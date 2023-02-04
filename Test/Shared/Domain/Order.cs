@@ -12,8 +12,6 @@ namespace Test.Shared.Domain
         public Boolean Paid { get; set; }
         public virtual Make Make { get; set; }
         public virtual Customer Customer { get; set; }
-        public virtual Restaurant Restaurant { get; set; }
-
-        public virtual OrderStatus OrderStatus { get; set; }
+        
     }
 }

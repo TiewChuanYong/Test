@@ -1,7 +1,46 @@
 ﻿@page "/"
 
 <h1>Hope you enjoy SpeedyDelivery</h1>
-
 Welcome to SpeedyDelivery.
+<br>
+>Let's explore delicious food near you!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SpeedyDelivery</title>
+    <meta charset="utf-8">
+</head>
+<body>
+    <div>
 
-<SurveyPrompt Title="How is SpeedyDelivery working for you?" />
+        <p>
+            <hr>
+            <h2>
+                <form style="font-size: 18px;">
+                    <label for="fname">Enter your address here:</label>
+                    <input type="text" id="fname" name="fname">
+                    <input type="submit" value="Search">
+                </form>
+            </h2>
+            <hr>
+            <h2>Promos!</h2> <!-- Choose one favourite category -->
+            <ul type="square">
+                <p>Chicken Rice</p>
+                <img src=https://images.augustman.com/wp-content/uploads/sites/2/2022/06/02192142/loy-kee-chicken-rice-image-from-timeout-1.jpeg height="150">
+                <br>
+                <p>KFC</p>
+                <img src="https://d1sag4ddilekf6.azureedge.net/compressed/merchants/4-CZACR3E3HAXXWA/list/3725957dea864068b0fb76bf9ba0ef9b_1653875674935291632.jpg" height="150">
+                <br>
+                <p>Ramen</p>
+                <img src="https://www.angsarap.net/wp-content/uploads/2022/03/Tonkotsu-Ramen-Wide.jpg" height="150">
+            </ul>
+        </p>
+    </div>
+    <footer>
+        <small><i>Copyright &copy; 2021 [Thaw]&[Chuan Yong]</i></small> <!-- Add your name -->
+        Welcome to SpeedyDelivery.
+
+        <SurveyPrompt Title="How is SpeedyDelivery working for you?" />
+    </footer>
+</body>
+</html>
