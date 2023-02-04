@@ -5,6 +5,12 @@
 @inject IJSRuntime js
 
 <h3 class="card-title"> Customers </h3>
+<a href="/customer/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Customer
+</a>
+<br />
+<br />
 
 @if (Customers == null)
 {
@@ -18,26 +24,30 @@ else
             <tr>
                 <th>Name</th>
                 <th>Address</th>
-  
+                <th>EmailAddress</th>
+
             </tr>
         </thead>
         <tbody>
             @foreach (var customer in Customers)
             {
-                <tr>
-                    <td>@customer.Name</td>
-                    <td>
-                        <a href="/menus/view/@customer.Id" class="btn btn-primary">
-                            <span class=" oi oi-book"></span>
-                        </a>
-                        <a href="/menus/edit/@customer.Id" class="btn btn-warning">
-                            <span class=" oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(customer.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@customer.Name</td>
+                <td>@customer.Address</td>
+                <td>@customer.EmailAddress</td>
+                <td>@customer.ContactNumber</td>
+                <td>
+                    <a href="/customer/view/@customer.Id" class="btn btn-primary">
+                        <span class=" oi oi-book"></span>
+                    </a>
+                    <a href="/customer/edit/@customer.Id" class="btn btn-warning">
+                        <span class=" oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(customer.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -58,7 +68,7 @@ else
         var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.Name}?");
         if (confirm)
         {
-            await _client.DeleteAsync($"{Endpoints.CustomerEndpoint}");
+            await _client.DeleteAsync($"{Endpoints.CustomerEndpoint}/{customerId}");
             await OnInitializedAsync();
         }
     }
