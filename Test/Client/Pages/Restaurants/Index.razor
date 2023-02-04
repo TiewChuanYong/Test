@@ -5,6 +5,7 @@
 @implements IDisposable
 @attribute [Authorize]
 
+
 <h3 class="card-title"> Restaurants </h3>
 
 <a href="/restaurants/create" class="btn btn-secondary">
@@ -21,6 +22,7 @@
 }
 else
 {
+    //<table class="table table-responsive" id="restaurnatsTable">
     <table class="table table-responsive">
         <thead>
             <tr>
@@ -63,6 +65,16 @@ else
         _interceptor.MonitorEvent();
         Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
     }
+
+    //protected async override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    await js.InvokeVoidAsync("AddDataTable", "#restaurnatsTable");
+    //}
+
+    //public void Dispose()
+    //{
+    //    js.InvokeVoidAsync("DataTablesDispose", "#restaurnatsTable");
+    //}
 
     async Task Delete(int restaurantId)
     {

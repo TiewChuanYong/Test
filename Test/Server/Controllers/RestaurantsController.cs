@@ -29,7 +29,7 @@ namespace Test.Server.Controllers
         public async Task<IActionResult> GetRestaurants()
         {
 
-            return NotFound();
+            //return NotFound();
 
             var restaurants = await _unitOfWork.Restaurants.GetAll();
             return Ok(restaurants);
