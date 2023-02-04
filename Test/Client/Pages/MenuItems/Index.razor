@@ -65,12 +65,12 @@ else
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        await js.InvokeVoidAsync("AddDataTable", "#menuItems");
+        await js.InvokeVoidAsync("AddDataTable", "#menuitemsTable");
     }
 
     public void Dispose()
     {
-        js.InvokeVoidAsync("DataTablesDispose", "#menuItems");
+        js.InvokeVoidAsync("DataTablesDispose", "#menuitemsTable");
     }
 
     async Task Delete(int menuItemId)
