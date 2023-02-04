@@ -20,7 +20,7 @@ namespace Test.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddHttpClient("CarRentalManagement.ServerAPI", (sp,client) => {client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            builder.Services.AddHttpClient("Test.ServerAPI", (sp,client) => {client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
                    client.EnableIntercept(sp);})
                     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 

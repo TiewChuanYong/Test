@@ -28,9 +28,11 @@ namespace Test.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetRestaurants()
         {
+
+            return NotFound();
+
             var restaurants = await _unitOfWork.Restaurants.GetAll();
             return Ok(restaurants);
-
         }
 
         // GET: api/Restaurants/5

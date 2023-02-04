@@ -1,9 +1,9 @@
 ﻿@page "/restaurants/"
 @inject HttpClient _client
 @inject IJSRuntime js
-@attribute [Authorize]
 @inject HttpInterceptorService _interceptor
 @implements IDisposable
+@attribute [Authorize]
 
 <h3 class="card-title"> Restaurants </h3>
 
@@ -79,4 +79,5 @@ else
     {
         _interceptor.DisposeEvent();
     }
+
 }
