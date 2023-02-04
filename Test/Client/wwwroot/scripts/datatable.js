@@ -1,17 +1,8 @@
-﻿
-//function AddDataTable(table) {
-//    $(document).ready(function () {
-//        $(table).DataTable();
-//    })
-//}
-
-function AddDataTable(table) {
-    $(document).ready(function ()
-    {
+﻿function AddDataTable(table) {
+    $(document).ready(function () {
         $(table).DataTable();
-    });
+    })
 }
-
 function DataTablesDispose(table) {
     $(document).ready(function () {
         $(table).DataTable().destroy();

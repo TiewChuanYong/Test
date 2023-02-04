@@ -2,9 +2,8 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @inject HttpInterceptorService _interceptor
-@implements IDisposable
 @attribute [Authorize]
-
+@implements IDisposable
 
 <h3 class="card-title"> Restaurants </h3>
 
@@ -22,16 +21,17 @@
 }
 else
 {
-    //<table class="table table-responsive" id="restaurnatsTable">
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="restaurantsTable">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Address</th>
                 <th>ShortDescription</th>
                 <th>IsActive</th>
+                <th>        </th>
             </tr>
         </thead>
+
         <tbody>
             @foreach (var restaurant in Restaurants)
             {
@@ -40,6 +40,7 @@ else
                     <td>@restaurant.Address</td>
                     <td>@restaurant.ShortDescribtion</td>
                     <td>@restaurant.IsActive</td>
+
                     <td>
                         <a href="/restaurants/view/@restaurant.Id" class="btn btn-primary">
                             <span class=" oi oi-book"></span>
@@ -66,15 +67,15 @@ else
         Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
     }
 
-    //protected async override Task OnAfterRenderAsync(bool firstRender)
-    //{
-    //    await js.InvokeVoidAsync("AddDataTable", "#restaurnatsTable");
-    //}
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#restaurantsTable");
+    }
 
-    //public void Dispose()
-    //{
-    //    js.InvokeVoidAsync("DataTablesDispose", "#restaurnatsTable");
-    //}
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#restaurantsTable");
+    }
 
     async Task Delete(int restaurantId)
     {
@@ -87,9 +88,9 @@ else
         }
     }
 
-    public void Dispose()
-    {
-        _interceptor.DisposeEvent();
-    }
+    //public void Dispose()
+    //{
+    //    _interceptor.DisposeEvent();
+    //}
 
 }

@@ -2,6 +2,7 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@implements IDisposable
 
 <h3 class="card-title"> Menu Items </h3>
 
@@ -19,13 +20,14 @@
 }
 else
 {
-    <table class="table table-responsive">
+    <table class="table table-responsive"  id="menuitemsTable">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
                 <th>Menu</th>
+                <th>        </th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +61,16 @@ else
     protected async override Task OnInitializedAsync()
     {
         menuItems = await _client.GetFromJsonAsync<List<MenuItem>>($"{Endpoints.MenuItemsEndpoint}");
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#menuItems");
+    }
+
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#menuItems");
     }
 
     async Task Delete(int menuItemId)
