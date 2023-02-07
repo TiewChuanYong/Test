@@ -10,8 +10,8 @@ using Test.Server.Data;
 namespace Test.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230203135425_newdb")]
-    partial class newdb
+    [Migration("20230207114723_AddApplicationTables")]
+    partial class AddApplicationTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

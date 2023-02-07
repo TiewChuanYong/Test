@@ -25,6 +25,8 @@ namespace Test.Server.Data
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
+        public DbSet<Test.Shared.Domain.Order> Order { get; set; }
+        public DbSet<Test.Shared.Domain.OrderItem> OrderItem { get; set; }
 
     }
 }

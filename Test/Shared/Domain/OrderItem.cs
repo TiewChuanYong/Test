@@ -11,5 +11,6 @@ namespace Test.Shared.Domain
         public int Quantity { get; set; }
         public virtual Order Order { get; set; }
         public virtual MenuItem MenuItem { get; set; }
+        public int MenuItemId { get; set; }
     }
 }
