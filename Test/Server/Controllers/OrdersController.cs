@@ -30,7 +30,8 @@ namespace Test.Server.Controllers
         public async Task<IActionResult> GetOrders()
         {
             //return await _context.Order.ToListAsync();
-            var orders = await _unitOfWork.Orders.GetAll();
+            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Customer).Include(x => x.Restaurant));
+            
             return Ok(orders);
         }
 

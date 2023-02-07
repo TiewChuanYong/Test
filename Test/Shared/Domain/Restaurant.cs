@@ -21,6 +21,7 @@ namespace Test.Shared.Domain
         [Required]
         public Boolean IsActive { get; set; }
         public virtual List<Menu> Menus { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }   
 }
     

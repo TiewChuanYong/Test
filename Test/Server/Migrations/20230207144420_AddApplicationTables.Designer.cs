@@ -10,7 +10,7 @@ using Test.Server.Data;
 namespace Test.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230207120144_AddApplicationTables")]
+    [Migration("20230207144420_AddApplicationTables")]
     partial class AddApplicationTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -724,7 +724,7 @@ namespace Test.Server.Migrations
                         .HasForeignKey("OrderStatusId");
 
                     b.HasOne("Test.Shared.Domain.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("RestaurantId");
 
                     b.Navigation("Customer");
@@ -756,6 +756,8 @@ namespace Test.Server.Migrations
             modelBuilder.Entity("Test.Shared.Domain.Restaurant", b =>
                 {
                     b.Navigation("Menus");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

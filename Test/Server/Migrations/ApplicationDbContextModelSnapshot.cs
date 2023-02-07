@@ -722,7 +722,7 @@ namespace Test.Server.Migrations
                         .HasForeignKey("OrderStatusId");
 
                     b.HasOne("Test.Shared.Domain.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("RestaurantId");
 
                     b.Navigation("Customer");
@@ -754,6 +754,8 @@ namespace Test.Server.Migrations
             modelBuilder.Entity("Test.Shared.Domain.Restaurant", b =>
                 {
                     b.Navigation("Menus");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
