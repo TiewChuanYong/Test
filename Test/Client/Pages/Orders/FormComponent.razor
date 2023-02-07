@@ -61,6 +61,14 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label>Paid? : </label>
+        <div>
+            <InputCheckbox @bind-Value="order.Paid" class="form-control"></InputCheckbox>
+            <ValidationMessage For="@(() => order.Paid)" />
+        </div>
+    </div>
+
 
     @if (!Disabled)
     {
