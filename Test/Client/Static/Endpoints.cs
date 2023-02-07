@@ -12,5 +12,9 @@ namespace Test.Client.Static
         public static readonly string RestaurantsEndpoint = $"{Prefix}/restaurants";
         public static readonly string MenuItemsEndpoint = $"{Prefix}/menuitems";
         public static readonly string MenusEndpoint = $"{Prefix}/menus";
+
+        public static readonly string CustomerEndpoint = $"{Prefix}/customers";
+        public static readonly string OrderItemEndpoint = $"{Prefix}/orderItems";
+        public static readonly string OrderEndpoint = $"{Prefix}/orders";
     }
 }

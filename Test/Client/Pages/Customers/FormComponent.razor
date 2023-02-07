@@ -1,4 +1,6 @@
-﻿
+﻿@inject HttpClient _client
+
+
 <EditForm Model="@customer" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -33,7 +35,6 @@
         </div>
     </fieldset>
 
-   
 
     @if (!Disabled)
     {
@@ -41,7 +42,7 @@
             @ButtonText
         </button>
     }
-    <Test.Client.Component.BackToList Target="customer" />
+    <BackToList Target="customer" />
 </EditForm>
 
 

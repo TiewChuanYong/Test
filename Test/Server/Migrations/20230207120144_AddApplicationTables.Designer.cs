@@ -10,7 +10,7 @@ using Test.Server.Data;
 namespace Test.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230207114723_AddApplicationTables")]
+    [Migration("20230207120144_AddApplicationTables")]
     partial class AddApplicationTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,6 +338,7 @@ namespace Test.Server.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContactNumber")
@@ -353,9 +354,11 @@ namespace Test.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
@@ -464,6 +467,96 @@ namespace Test.Server.Migrations
                     b.HasIndex("MenuId");
 
                     b.ToTable("MenuItems");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResturantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MakeId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MenuItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Test.Shared.Domain.OrderStatus", b =>
@@ -612,6 +705,52 @@ namespace Test.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Menu");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.HasOne("Test.Shared.Domain.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test.Shared.Domain.Make", "Make")
+                        .WithMany()
+                        .HasForeignKey("MakeId");
+
+                    b.HasOne("Test.Shared.Domain.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("Test.Shared.Domain.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Make");
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
+                {
+                    b.HasOne("Test.Shared.Domain.MenuItem", "MenuItem")
+                        .WithMany()
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test.Shared.Domain.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
+                    b.Navigation("MenuItem");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Test.Shared.Domain.Restaurant", b =>
