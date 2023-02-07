@@ -30,7 +30,7 @@ namespace Test.Server.Controllers
         public async Task<IActionResult> GetOrders()
         {
             //return await _context.Order.ToListAsync();
-            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Customer).Include(x => x.Restaurant));
+            var orders = await _unitOfWork.Orders.GetAll(includes: q => q.Include(x => x.Customer).Include(x => x.Restaurants).Include(x => x.MenuItem));
             
             return Ok(orders);
         }
@@ -38,7 +38,7 @@ namespace Test.Server.Controllers
         // GET: api/Orders/5
         [HttpGet("{id}")]
         //public async Task<ActionResult<Order>> GetOrder(int id)
-        public async Task<IActionResult> GetOrders(int id)
+        public async Task<IActionResult> GetOrder(int id)
         {
             //var order = await _context.Order.FindAsync(id);
             var order = await _unitOfWork.Orders.Get(q => q.Id == id);

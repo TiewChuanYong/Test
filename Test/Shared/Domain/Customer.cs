@@ -13,6 +13,7 @@ namespace Test.Shared.Domain
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }
+        [Required]
         public int ContactNumber { get; set; }
         [Required]
         [DataType(DataType.EmailAddress, ErrorMessage = "Please enter a vaild email address!")]

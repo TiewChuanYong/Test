@@ -1,4 +1,4 @@
-﻿@page "/orderItem"
+﻿@*@page "/orderItem"
 @inject HttpClient _client
 @attribute [Authorize]
 @inject HttpClient Http
@@ -26,6 +26,7 @@ else
                 <th>Quantity</th>
                 <th>Order</th>
                 <th>MenuItem</th>
+                <th>Price</th>
 
             </tr>
         </thead>
@@ -35,7 +36,8 @@ else
                 <tr>
                     <td>@orderItem.Quantity</td>
                     <td>@orderItem.Order</td>
-                    <td>@orderItem.MenuItem</td>
+                    <td>@orderItem.MenuItem.Name</td>
+                    <td>@orderItem.MenuItem.Price</td>
 
                     <td>
                         <a href="/orderItem/view/@orderItem.Id" class="btn btn-primary">
@@ -73,4 +75,4 @@ else
         }
     }
 
-}
+}*@

@@ -31,6 +31,15 @@
                 <ValidationMessage For="@(() => customer.EmailAddress)" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Customer Number: </label>
+            <div>
+                <InputNumber @bind-Value="customer.ContactNumber" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => customer.ContactNumber)" />
+            </div>
+        </div>
+
     </div>
         <button type="submit" class="btn btn-success btn-block">
             Create Customer

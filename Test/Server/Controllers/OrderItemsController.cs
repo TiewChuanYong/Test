@@ -22,13 +22,13 @@ namespace Test.Server.Controllers
         public OrderItemsController(IUnitOfWork unitOfWork)
         {
             //_context = context;
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;   
         }
 
         // GET: api/OrderItems
         [HttpGet]
         //public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItem()
-        public async Task<IActionResult> GetOrderItem()
+        public async Task<IActionResult> GetOrderItems()
         {
             //return await _context.OrderItem.ToListAsync();
             var orderItems = await _unitOfWork.OrderItems.GetAll();
@@ -72,7 +72,7 @@ namespace Test.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                //if (!OrderItemExists(id)
+                //if (!OrderItemExists(id))
                 if (!await OrderItemExists(id))
                 {
                     return NotFound();
@@ -96,7 +96,6 @@ namespace Test.Server.Controllers
             await _unitOfWork.OrderItems.Insert(orderItem);
             await _unitOfWork.Save(HttpContext);
 
-
             return CreatedAtAction("GetOrderItem", new { id = orderItem.Id }, orderItem);
         }
 
@@ -119,6 +118,7 @@ namespace Test.Server.Controllers
             return NoContent();
         }
 
+        //private bool OrderItemExists(int id)
         private async Task<bool> OrderItemExists(int id)
         {
             //return _context.OrderItem.Any(e => e.Id == id);

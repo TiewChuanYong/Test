@@ -10,7 +10,7 @@ using Test.Server.Data;
 namespace Test.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230207144420_AddApplicationTables")]
+    [Migration("20230207182825_AddApplicationTables")]
     partial class AddApplicationTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -491,6 +491,9 @@ namespace Test.Server.Migrations
                     b.Property<int?>("MakeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MenuItemId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("OrderStatusId")
                         .HasColumnType("int");
 
@@ -500,7 +503,7 @@ namespace Test.Server.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("RestaurantId")
+                    b.Property<int?>("RestaurantsId")
                         .HasColumnType("int");
 
                     b.Property<int>("ResturantId")
@@ -515,9 +518,11 @@ namespace Test.Server.Migrations
 
                     b.HasIndex("MakeId");
 
+                    b.HasIndex("MenuItemId");
+
                     b.HasIndex("OrderStatusId");
 
-                    b.HasIndex("RestaurantId");
+                    b.HasIndex("RestaurantsId");
 
                     b.ToTable("Order");
                 });
@@ -538,10 +543,7 @@ namespace Test.Server.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MenuItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -551,8 +553,6 @@ namespace Test.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MenuItemId");
 
                     b.HasIndex("OrderId");
 
@@ -719,38 +719,45 @@ namespace Test.Server.Migrations
                         .WithMany()
                         .HasForeignKey("MakeId");
 
-                    b.HasOne("Test.Shared.Domain.OrderStatus", "OrderStatus")
-                        .WithMany()
-                        .HasForeignKey("OrderStatusId");
-
-                    b.HasOne("Test.Shared.Domain.Restaurant", "Restaurant")
-                        .WithMany("Orders")
-                        .HasForeignKey("RestaurantId");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Make");
-
-                    b.Navigation("OrderStatus");
-
-                    b.Navigation("Restaurant");
-                });
-
-            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
-                {
                     b.HasOne("Test.Shared.Domain.MenuItem", "MenuItem")
                         .WithMany()
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Test.Shared.Domain.Order", "Order")
+                    b.HasOne("Test.Shared.Domain.OrderStatus", "OrderStatus")
                         .WithMany()
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("Test.Shared.Domain.Restaurant", "Restaurants")
+                        .WithMany("Orders")
+                        .HasForeignKey("RestaurantsId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Make");
 
                     b.Navigation("MenuItem");
 
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("Restaurants");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
+                {
+                    b.HasOne("Test.Shared.Domain.Order", "Order")
+                        .WithMany("OrderItem")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.Navigation("OrderItem");
                 });
 
             modelBuilder.Entity("Test.Shared.Domain.Restaurant", b =>

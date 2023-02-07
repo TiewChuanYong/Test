@@ -33,16 +33,26 @@
                 <ValidationMessage For="@(() => customer.EmailAddress)" />
             </div>
         </div>
+
+    </fieldset>
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Customer Number: </label>
+            <div>
+                <InputNumber @bind-Value="customer.ContactNumber" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => customer.ContactNumber)" />
+            </div>
+        </div>
     </fieldset>
 
 
-    @if (!Disabled)
-    {
-        <button type="submit" class="btn btn-success btn-block">
-            @ButtonText
-        </button>
-    }
-    <BackToList Target="customer" />
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="customer" />
 </EditForm>
 
 

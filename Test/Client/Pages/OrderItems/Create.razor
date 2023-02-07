@@ -1,0 +1,49 @@
+﻿@*@page "/orderItem/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Create</h3>
+<EditForm Model="@orderItem" OnValidSubmit="CreateOrderItem">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label>Menu Item: </label>
+        <div>
+            <InputSelect @bind-Value="orderItem.MenuItemId" class="form-control">
+                <option value=""> -- Select Menu Item --</option>
+                @if (MenuItems != null)
+                {
+                    foreach (var menuItem in MenuItems)
+                    {
+                        <option value="@menuItem.Id">@menuItem.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => orderItem.MenuItemId)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-block">
+        Create Customer
+    </button>
+</EditForm>
+
+
+@code {
+    OrderItem orderItem = new OrderItem();
+
+    private IList<MenuItem> MenuItems;
+    private IList<Order> Orders;
+
+    protected async override Task OnInitializedAsync()
+    {
+        MenuItems = await _client.GetFromJsonAsync<List<MenuItem>>($"{Endpoints.MenuItemsEndpoint}");
+        Orders = await _client.GetFromJsonAsync<List<Order>>($"{Endpoints.OrderEndpoint}");
+    }
+    private async Task CreateOrderItem()
+    {
+        await _client.PostAsJsonAsync(Endpoints.OrderItemEndpoint, orderItem);
+        _navManager.NavigateTo("/orderItem/");
+    }
+
+}
+*@
