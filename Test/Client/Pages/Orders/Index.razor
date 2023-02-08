@@ -3,6 +3,8 @@
 @attribute [Authorize]
 @inject HttpClient Http
 @inject IJSRuntime js
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 
 <h3 class="card-title"> Orders </h3>
@@ -20,7 +22,7 @@
 }
 else
 {
-    <table class="table table-responsive" >
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>Customer</th>
@@ -36,27 +38,27 @@ else
         <tbody>
             @foreach (var order in Orders)
             {
-            <tr>
-                <td>@order.Customer.Name</td>
-                <td>@order.ResturantId</td>
-                <td>@order.MenuItem.Name</td>
-                <th>@order.MenuItem.Price</th>
-                <td>@order.Paid</td>
+                <tr>
+                    <td>@order.Customer.Name</td>
+                    <td>@order.ResturantId</td>
+                    <td>@order.MenuItem.Name</td>
+                    <th>@order.MenuItem.Price</th>
+                    <td>@order.Paid</td>
 
 
 
-                <td>
-                    <a href="/order/view/@order.Id" class="btn btn-primary">
-                        <span class=" oi oi-book"></span>
-                    </a>
-                    <a href="/order/edit/@order.Id" class="btn btn-warning">
-                        <span class=" oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(order.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                    <td>
+                        <a href="/order/view/@order.Id" class="btn btn-primary">
+                            <span class=" oi oi-book"></span>
+                        </a>
+                        <a href="/order/edit/@order.Id" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(order.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -68,10 +70,11 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Orders = await _client.GetFromJsonAsync<List<Order>>($"{Endpoints.OrderEndpoint}");
     }
 
-    
+
     async Task Delete(int orderId)
     {
         var order = Orders.First(q => q.Id == orderId);
@@ -81,6 +84,10 @@ else
             await _client.DeleteAsync($"{Endpoints.OrderEndpoint}/{orderId}");
             await OnInitializedAsync();
         }
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 
 }

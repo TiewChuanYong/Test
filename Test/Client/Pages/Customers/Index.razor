@@ -3,6 +3,8 @@
 @attribute [Authorize]
 @inject HttpClient Http
 @inject IJSRuntime js
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title"> Customers </h3>
 <a href="/customer/create" class="btn btn-secondary">
@@ -32,24 +34,24 @@ else
         <tbody>
             @foreach (var customer in Customers)
             {
-            <tr>
-                <td>@customer.Name</td>
-                <td>@customer.Address</td>
-                <td>@customer.EmailAddress</td>
-                <td>@customer.ContactNumber</td>
+                <tr>
+                    <td>@customer.Name</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.EmailAddress</td>
+                    <td>@customer.ContactNumber</td>
 
-                <td>
-                    <a href="/customer/view/@customer.Id" class="btn btn-primary">
-                        <span class=" oi oi-book"></span>
-                    </a>
-                    <a href="/customer/edit/@customer.Id" class="btn btn-warning">
-                        <span class=" oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(customer.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                    <td>
+                        <a href="/customer/view/@customer.Id" class="btn btn-primary">
+                            <span class=" oi oi-book"></span>
+                        </a>
+                        <a href="/customer/edit/@customer.Id" class="btn btn-warning">
+                            <span class=" oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(customer.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -62,6 +64,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomerEndpoint}");
     }
     async Task Delete(int customerId)
@@ -74,6 +77,9 @@ else
             await OnInitializedAsync();
         }
     }
-
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
 
 }
