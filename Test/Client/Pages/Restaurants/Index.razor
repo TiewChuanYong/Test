@@ -24,6 +24,7 @@ else
     <table class="table table-responsive" id="restaurantsTable">
         <thead>
             <tr>
+                <th>No.</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>ShortDescription</th>
@@ -36,6 +37,7 @@ else
             @foreach (var restaurant in Restaurants)
             {
                 <tr>
+                    <td>@restaurant.Id</td>
                     <td>@restaurant.Name</td>
                     <td>@restaurant.Address</td>
                     <td>@restaurant.ShortDescribtion</td>

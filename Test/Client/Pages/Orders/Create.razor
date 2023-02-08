@@ -1,0 +1,96 @@
+﻿@page "/order/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Create Order</h3>
+
+<EditForm Model="@order" OnValidSubmit="CreateOrder">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label>Customer: </label>
+        <div>
+            <InputSelect @bind-Value="order.CustomerId" class="form-control">
+                <option value=""> -- Select Customer --</option>
+                @if (Customers != null)
+                {
+                    foreach (var customer in Customers)
+                    {
+                        <option value="@customer.Id">@customer.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => order.CustomerId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Restaurants: </label>
+        <div>
+            <InputSelect @bind-Value="order.ResturantId" class="form-control">
+                <option value=""> -- Select Restaurant --</option>
+                @if (Restaurants != null)
+                {
+                    foreach (var restaurant in Restaurants)
+                    {
+                        <option value="@restaurant.Id">@restaurant.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => order.ResturantId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Menu Item: </label>
+        <div>
+            <InputSelect @bind-Value="order.MenuItemId" class="form-control">
+                <option value=""> -- Select Menu Item --</option>
+                @if (MenuItems != null)
+                {
+                    foreach (var menuItem in MenuItems)
+                    {
+                        <option value="@menuItem.Id">@menuItem.Name</option>
+                    }
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => order.MenuItemId)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Paid? : </label>
+        <div>
+            <InputCheckbox @bind-Value="order.Paid" class="form-control"></InputCheckbox>
+            <ValidationMessage For="@(() => order.Paid)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        Create Order
+    </button>
+</EditForm>
+
+@code {
+    Order order = new Order();
+
+    private IList<Restaurant> Restaurants;
+    private IList<Customer> Customers;
+    private IList<MenuItem> MenuItems;
+
+    protected async override Task OnInitializedAsync()
+
+    {
+        MenuItems = await _client.GetFromJsonAsync<List<MenuItem>>($"{Endpoints.MenuItemsEndpoint}");
+        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
+        Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomerEndpoint}");
+    }
+
+    private async Task CreateOrder()
+    {
+        await _client.PostAsJsonAsync(Endpoints.OrderEndpoint, order);
+        _navManager.NavigateTo("/order/");
+    }
+
+
+}

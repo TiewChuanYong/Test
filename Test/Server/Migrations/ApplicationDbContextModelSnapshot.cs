@@ -336,6 +336,7 @@ namespace Test.Server.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ContactNumber")
@@ -351,9 +352,11 @@ namespace Test.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailAddress")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
@@ -462,6 +465,96 @@ namespace Test.Server.Migrations
                     b.HasIndex("MenuId");
 
                     b.ToTable("MenuItems");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MakeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MenuItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrderStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("RestaurantsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ResturantId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("MakeId");
+
+                    b.HasIndex("MenuItemId");
+
+                    b.HasIndex("OrderStatusId");
+
+                    b.HasIndex("RestaurantsId");
+
+                    b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem");
                 });
 
             modelBuilder.Entity("Test.Shared.Domain.OrderStatus", b =>
@@ -612,9 +705,64 @@ namespace Test.Server.Migrations
                     b.Navigation("Menu");
                 });
 
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.HasOne("Test.Shared.Domain.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test.Shared.Domain.Make", "Make")
+                        .WithMany()
+                        .HasForeignKey("MakeId");
+
+                    b.HasOne("Test.Shared.Domain.MenuItem", "MenuItem")
+                        .WithMany()
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Test.Shared.Domain.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("OrderStatusId");
+
+                    b.HasOne("Test.Shared.Domain.Restaurant", "Restaurants")
+                        .WithMany("Orders")
+                        .HasForeignKey("RestaurantsId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Make");
+
+                    b.Navigation("MenuItem");
+
+                    b.Navigation("OrderStatus");
+
+                    b.Navigation("Restaurants");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.OrderItem", b =>
+                {
+                    b.HasOne("Test.Shared.Domain.Order", "Order")
+                        .WithMany("OrderItem")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Test.Shared.Domain.Order", b =>
+                {
+                    b.Navigation("OrderItem");
+                });
+
             modelBuilder.Entity("Test.Shared.Domain.Restaurant", b =>
                 {
                     b.Navigation("Menus");
+
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

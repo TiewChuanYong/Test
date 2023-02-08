@@ -1,0 +1,65 @@
+﻿@inject HttpClient _client
+
+
+<EditForm Model="@customer" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Edit Customer Name: </label>
+            <div>
+                <InputText @bind-Value="customer.Name" class="form-control"></InputText>
+                <ValidationMessage For="@(() => customer.Name)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Edit Customer Address: </label>
+            <div>
+                <InputText @bind-Value="customer.Address" class="form-control"></InputText>
+                <ValidationMessage For="@(() => customer.Address)" />
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Edit Customer Email: </label>
+            <div>
+                <InputText @bind-Value="customer.EmailAddress" class="form-control"></InputText>
+                <ValidationMessage For="@(() => customer.EmailAddress)" />
+            </div>
+        </div>
+
+    </fieldset>
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Customer Number: </label>
+            <div>
+                <InputNumber @bind-Value="customer.ContactNumber" class="form-control"></InputNumber>
+                <ValidationMessage For="@(() => customer.ContactNumber)" />
+            </div>
+        </div>
+    </fieldset>
+
+
+        @if (!Disabled)
+        {
+            <button type="submit" class="btn btn-success btn-block">
+                @ButtonText
+            </button>
+        }
+        <BackToList Target="customer" />
+</EditForm>
+
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Customer customer { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}
+
