@@ -29,7 +29,7 @@ namespace Test.Server.Controllers
         public async Task<IActionResult> GetRestaurants()
         {
 
-            //return NotFound();
+            return NotFound();
 
             var restaurants = await _unitOfWork.Restaurants.GetAll();
             return Ok(restaurants);
@@ -39,6 +39,10 @@ namespace Test.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
         {
+
+
+            return Unauthorized();
+
             var restaurant = await _unitOfWork.Restaurants.Get(q => q.Id == id);
 
             if (restaurant == null)
@@ -54,6 +58,7 @@ namespace Test.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRestaurant(int id, Restaurant restaurant)
         {
+
             if (id != restaurant.Id)
             {
                 return BadRequest();
